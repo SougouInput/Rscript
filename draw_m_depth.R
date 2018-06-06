@@ -1,0 +1,21 @@
+rm(list=ls())
+library(ggplot2)
+m=read.table("bin.data.txt",sep="\t",header=T)
+md=data.frame(m$sample,m$gene_symbol,m$mean_depth)
+names(md)=c("sample","gene_symbol","mean_depth")
+p=ggplot(data=md,mapping=aes(x=md$gene_symbol,y=md$mean_depth))+
+  geom_bar(stat="identity")+
+  facet_grid(sample ~ .)+
+  geom_hline(aes(yintercept=200),color="red",linetype="dashed")+
+  labs(x="",y="",title="mean_depth")+
+  theme(plot.title=element_text(hjust=0.5))+
+  theme(axis.text.x=element_text(size=6,angle=90),
+        axis.text.y=element_text(size=6))+
+  theme(panel.background=element_blank(),
+        panel.grid=element_blank(),
+        panel.border=element_blank())+
+  theme(axis.line=element_line(size=1,colour="black"))+
+  theme(legend.title=element_blank(),legend.key=element_blank())+
+  theme(legend.key.width=unit(1,"cm"))+
+  theme(legend.text=element_text(size=13))
+p
